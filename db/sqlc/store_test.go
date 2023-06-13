@@ -23,7 +23,7 @@ func TestTransferTx(t *testing.T) {
 
 	// run n concurrent transfer transaction
 	for i := 0; i < n; i++ {
-		go func() {
+		go func () {
 			result, err := store.TransferTx(context.Background(), CreateTransferParams{
 				FromAccountID: account1.ID,
 				ToAccountID: account2.ID,
@@ -136,7 +136,7 @@ func TestTransferTxDeadlock(t *testing.T) {
 			toAccountID = account1.ID
 		}
 
-		go func() {
+		go func () {
 			_, err := store.TransferTx(context.Background(), CreateTransferParams{
 				FromAccountID: fromAccountID,
 				ToAccountID: toAccountID,
