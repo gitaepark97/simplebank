@@ -1,12 +1,15 @@
 package api
 
 import (
+	"fmt"
+	"net/http"
 	"os"
 	"testing"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	db "github.com/gitaepark/simplebank/db/sqlc"
+	"github.com/gitaepark/simplebank/token"
 	"github.com/gitaepark/simplebank/util"
 	"github.com/stretchr/testify/require"
 )
@@ -21,6 +24,17 @@ func newTestServer(t *testing.T, store db.Store) *Server {
 	require.NoError(t, err)
 
 	return server
+}
+
+func createAndSetAuthToken(t *testing.T, request *http.Request, tokenMaker token.Maker, username string) {
+	if len(username) == 0 {
+		return
+	}
+
+	token, err := tokenMaker.CreateToken(username, time.Minute)
+	require.NoError(t, err)
+	authorizationHeader := fmt.Sprintf("%s %s", authorizationTypeBearer, token)
+	request.Header.Set(authorizationHeaderKey, authorizationHeader)
 }
 
 func TestMain(m *testing.M) {

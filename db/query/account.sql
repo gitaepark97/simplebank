@@ -24,8 +24,9 @@ FOR NO KEY UPDATE;
 SELECT
   accounts.*
 FROM accounts
+WHERE accounts.owner = $1
 ORDER BY accounts.id
-LIMIT $1 OFFSET $2;
+LIMIT $2 OFFSET $3;
 
 -- name: UpdateAccount :one
 UPDATE accounts
