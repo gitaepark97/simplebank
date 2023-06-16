@@ -6,7 +6,7 @@ on:
 
 jobs:
   delopy:
-    name: Build image
+    name: Build image && Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -50,3 +50,5 @@ jobs:
           kubectl apply -f eks/aws-auth.yml
           kubectl apply -f eks/deployment.yml
           kubectl apply -f eks/service.yml
+          kubectl apply -f eks/issuer.yml
+          kubectl apply -f eks/ingress.yml
